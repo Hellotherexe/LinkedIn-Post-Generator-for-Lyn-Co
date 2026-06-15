@@ -1,0 +1,262 @@
+{
+"nodes": [
+{
+"parameters": {
+"httpMethod": "POST",
+"path": "batch-processor",
+"responseMode": "responseNode",
+"options": {}
+},
+"id": "insert yo id",
+"name": "Webhook (Process)",
+"type": "n8n-nodes-base.webhook",
+"typeVersion": 2,
+"position": [-448, 48],
+"webhookId": "insert yo id"
+},
+{
+"parameters": {
+"options": {
+"temperature": 0.4
+}
+},
+"id": "insert yo id",
+"name": "Google Gemini",
+"type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+"typeVersion": 1,
+"position": [240, 256],
+"credentials": {
+"googlePalmApi": {
+"id": "insert yo id",
+"name": "Google Gemini(PaLM) Api account 2"
+}
+}
+},
+{
+"parameters": {
+"promptType": "define",
+"text": "=={{ "insert yo own prompt" }}",
+"hasOutputParser": true
+},
+"id": "insert yo id",
+"name": "AI Agent",
+"type": "@n8n/n8n-nodes-langchain.chainLlm",
+"typeVersion": 1.4,
+"position": [240, 48]
+},
+{
+"parameters": {
+"respondWith": "text",
+"responseBody": "=\n<html lang="en">\n\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    Lyn & Co Realty | Strategic AI Generator\n    \n        :root {\n            --primary: #0a192f;\n            --gold: #c5a059;\n            --gold-light: #e0c58a;\n            --bg: #f4f7f9;\n            --white: #ffffff;\n            --text: #1a202c;\n            --success: #28a745;\n        }\n        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text); }\n        header { background: var(--primary); color: var(--white); padding: 3rem 1rem; text-align: center; border-bottom: 5px solid var(--gold); }\n        .container { max-width: 900px; margin: -50px auto 50px; padding: 0 20px; }\n        .card { background: var(--white); border-radius: 16px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); }\n        h1 { margin: 0; letter-spacing: 4px; text-transform: uppercase; font-size: 1.8rem; font-weight: 300; }\n        p.subtitle { color: var(--gold); font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }\n        .upload-area { border: 2px dashed #d1d5db; padding: 40px; text-align: center; border-radius: 12px; margin: 20px 0; transition: all 0.3s ease; background: #fafafa; cursor: pointer; }\n        .upload-area:hover { border-color: var(--gold); background: #fffdf9; }\n        button { background: var(--primary); color: white; border: 1px solid var(--gold); padding: 16px 45px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }\n        button:hover { background: var(--gold); color: var(--primary); transform: translateY(-2px); }\n        button:disabled { background: #cbd5e0; border-color: #cbd5e0; cursor: not-allowed; transform: none; color: white; }\n        .approve-btn { background: var(--success); border: none; width: 100%; margin-top: 20px; padding: 18px; border-radius: 8px; font-size: 1rem; }\n        .approve-btn:hover { background: #218838; color: white; }\n        #results { margin-top: 50px; display: grid; gap: 40px; }\n        .post-card { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; transition: 0.3s; border: 1px solid #eee; }\n        .post-card.approved { opacity: 0.5; pointer-events: none; transform: scale(0.98); }\n        .post-header { background: var(--primary); color: var(--gold); padding: 15px 25px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: flex; justify-content: space-between; }\n        .post-image { width: 100%; max-height: 400px; object-fit: contain; background: #000; display: block; border-bottom: 1px solid #eee; }\n        .post-body { padding: 30px; line-height: 1.8; font-size: 1.05rem; outline: none; }\n        .post-body:focus { background: #fffdf5; border-radius: 8px; }\n        .post-body p { margin-bottom: 15px; }\n        .loader { display: none; text-align: center; padding: 30px; color: var(--primary); font-weight: 600; }\n        .file-chip { background: #edf2f7; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; color: var(--primary); border: 1px solid #e2e8f0; }\n    \n\n\n    \n        Lyn & Co Realty\n        <p class="subtitle">Strategic Property Intelligence\n    \n    <div class="container">\n        <div class="card">\n            <div class="upload-area" onclick="document.getElementById('fileInput').click()">\n                <p style="margin:0 0 10px; font-size: 1.1rem;">Click to Upload Articles\n                <p style="margin:0; font-size: 0.85rem; color: #718096;">Images will be processed into individual LinkedIn drafts.\n                <input type="file" id="fileInput" multiple accept="image/" onchange="previewFiles()" style="display:none">\n            \n            <div id="filePreview" class="file-preview" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">\n            <div style="text-align:center;">\n                <button id="btn" onclick="process()">Generate Luxury Insights\n            \n            <div id="loader" class="loader">⏳ ANALYZING MARKET DATA...\n        \n        <div id="results">\n    \n    \n    let uploadedFiles = [];\n    let generatedPosts = [];\n    const toBase64 = file => new Promise((resolve, reject) => {\n        const reader = new FileReader();\n        reader.readAsDataURL(file);\n        reader.onload = () => resolve(reader.result);\n        reader.onerror = error => reject(error);\n    });\n    function previewFiles() {\n        const files = document.getElementById('fileInput').files;\n        uploadedFiles = Array.from(files);\n        const preview = document.getElementById('filePreview');\n        preview.innerHTML = uploadedFiles.map(f => <span class=\"file-chip\">🖼️ ${f.name}</span>).join('');\n    }\n    async function process() {\n        if (uploadedFiles.length === 0) return alert('Please select article screenshots first.');\n        const btn = document.getElementById('btn');\n        const loader = document.getElementById('loader');\n        btn.disabled = true;\n        loader.style.display = 'block';\n        document.getElementById('results').innerHTML = '';\n        const formData = new FormData();\n        for (const file of uploadedFiles) {\n            formData.append('file', file);\n        }\n        try {\n            const response = await fetch(window.location.origin + '/webhook/batch-processor', {\n                method: 'POST',\n                body: formData\n            });\n            if (!response.ok) throw new Error(Server returned ${response.status});\n            const responseText = await response.text();\n            const data = JSON.parse(responseText);\n            generatedPosts = data.posts; \n            if (!generatedPosts || generatedPosts.length === 0) {\n                throw new Error("No posts were generated.");\n            }\n            let html = '';\n            generatedPosts.forEach((item, index) => {\n                const file = uploadedFiles[index];\n                const localImageUrl = file ? URL.createObjectURL(file) : '';\n                const postContent = typeof item.post === 'string' ? item.post : JSON.stringify(item.post);\n                html += \n                    <div class=\"post-card\" id=\"card-${index}\">\n                        <div class=\"post-header\">\n                            <span>STRATEGIC INSIGHT #${index + 1}</span>\n                            <span>${file ? file.name : 'ARTICLE'}</span>\n                        </div>\n                        <img class=\"post-image\" src=\"${localImageUrl}\" alt=\"Article Image\">\n                        <div class=\"post-body\" id=\"content-${index}\" contenteditable=\"true\">\n                            ${postContent.split('\\n').map(line => line.trim() ? ${line}: '').join('')}\n                        </div>\n                        <div style=\"padding: 0 30px 30px;\">\n                            <button class=\"approve-btn\" id=\"btn-${index}\" onclick=\"approvePost(${index})\">🚀 Approve & Post to LinkedIn</button>\n                        </div>\n                    </div>\n               ;\n            });\n            document.getElementById('results').innerHTML = html;\n        } catch (e) {\n            console.error("Process Error:", e);\n            alert('Generation Error: ' + e.message);\n        } finally {\n            btn.disabled = false;\n            loader.style.display = 'none';\n        }\n    }\n    async function approvePost(index) {\n        const card = document.getElementById(card-${index});\n        const btn = document.getElementById(btn-${index});\n        const editedText = document.getElementById(content-${index}).innerText;\n        const file = uploadedFiles[index];\n        if (!confirm("Are you sure you want to approve and post this to LinkedIn?")) return;\n        try {\n            btn.disabled = true;\n            btn.innerText = "⌛ SENDING...";\n            const base64Image = await toBase64(file);\n            const response = await fetch(window.location.origin + '/webhook/approve-linkedin', {\n                method: 'POST',\n                headers: { 'Content-Type': 'application/json' },\n                body: JSON.stringify({\n                    postContent: editedText,\n                    image: base64Image,\n                    mime: file.type\n                })\n            });\n            if (response.ok) {\n                card.classList.add('approved');\n                btn.innerText = "✅ PUBLISHED";\n                alert('Success! Post sent to LinkedIn.');\n            } else {\n                throw new Error('Server rejected approval');\n            }\n        } catch (e) {\n            btn.disabled = false;\n            btn.innerText = "🚀 Approve & Post to LinkedIn";\n            alert('Approval Failed: ' + e.message);\n        }\n    }\n\n\n",
+"options": {}
+},
+"id": "insert yo id",
+"name": "Respond to Webhook (UI)",
+"type": "n8n-nodes-base.respondToWebhook",
+"typeVersion": 1.1,
+"position": [-224, -160]
+},
+{
+"parameters": {
+"path": "linkedin-generator",
+"responseMode": "responseNode",
+"options": {}
+},
+"id": "insert yo id",
+"name": "Webhook (UI)",
+"type": "n8n-nodes-base.webhook",
+"typeVersion": 2,
+"position": [-448, -160],
+"webhookId": "insert yo id"
+},
+{
+"parameters": {
+"options": {}
+},
+"id": "insert yo id",
+"name": "Return JSON",
+"type": "n8n-nodes-base.respondToWebhook",
+"typeVersion": 1.1,
+"position": [816, 48]
+},
+{
+"parameters": {
+"jsCode": "const rawText = $input.first().json.text || "";\nif (!rawText || rawText.trim() === "") {\n    return [{ json: { posts: [] } }];\n}\nlet posts = [];\ntry {\n    const cleaned = rawText.replace(/json/g, \"\").replace(//g, "").trim();\n    posts = JSON.parse(cleaned);\n} catch (e) {\n    const startIdx = rawText.indexOf('[');\n    const endIdx = rawText.lastIndexOf(']');\n    if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {\n        const jsonString = rawText.substring(startIdx, endIdx + 1);\n        try {\n            posts = JSON.parse(jsonString);\n        } catch (innerError) {\n            console.error("Manual JSON extract failed:", innerError);\n            posts = [];\n        }\n    }\n}\nconst finalPosts = posts.map((p, index) => {\n    const binaryKeys = Object.keys($input.first().binary || {});\n    const key = binaryKeys[index];\n    return {\n        ...p,\n        imageBase64: key ? $input.first().binary[key].data : null,\n        mimeType: key ? $input.first().binary[key].mimeType : null\n    };\n});\nreturn [{ json: { posts: finalPosts } }];"
+},
+"type": "n8n-nodes-base.code",
+"typeVersion": 2,
+"position": [608, 48],
+"id": "insert yo id",
+"name": "Parse Output"
+},
+{
+"parameters": {
+"jsCode": "const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));\nconst binaryKeys = Object.keys(items[0].binary);\nconst rawText = [];\nconst debugInfo = [];\nfor (let i = 0; i < binaryKeys.length; i++) {\n  const key = binaryKeys[i];\n  const binaryData = await this.helpers.getBinaryDataBuffer(0, key);\n  const base64 = binaryData.toString('base64');\n  const mimeType = items[0].binary[key].mimeType;\n  try {\n    const ocrResponse = await this.helpers.httpRequest({\n      method: 'POST',\n      url: 'https://api.ocr.space/parse/image',\n      headers: { 'apikey': 'insert yo key' },\n      timeout: 30000,\n      body: {\n        language: 'eng',\n        isOverlayRequired: 'false',\n        base64Image: data:${mimeType};base64,${base64}\n      },\n      form: true \n    });\n    const text = ocrResponse?.ParsedResults?.[0]?.ParsedText || '';\n    if (text.trim()) {\n      rawText.push(text.trim());\n    }\n    debugInfo.push({ file: key, status: 'success', length: text.length });\n  } catch (err) {\n    debugInfo.push({ file: key, status: 'error', message: err.message });\n  }\n  await sleep(4000); \n}\nreturn [{\n  json: {\n    rawText,\n    debugInfo,\n    totalFiles: binaryKeys.length,\n    totalTexts: rawText.length\n  }\n}];"
+},
+"type": "n8n-nodes-base.code",
+"typeVersion": 2,
+"position": [-96, 48],
+"id": "insert yo id",
+"name": "OCR"
+},
+{
+"parameters": {
+"httpMethod": "POST",
+"path": "approve-linkedin",
+"responseMode": "responseNode",
+"options": {}
+},
+"id": "insert yo id",
+"name": "Webhook Approval",
+"type": "n8n-nodes-base.webhook",
+"typeVersion": 2,
+"position": [-448, 416],
+"webhookId": "insert yo id"
+},
+{
+"parameters": {
+"options": {}
+},
+"id": "insert yo id",
+"name": "Respond Success",
+"type": "n8n-nodes-base.respondToWebhook",
+"typeVersion": 1,
+"position": [928, 416]
+},
+{
+"parameters": {
+"jsCode": "const webhookData = $('Webhook Approval').first();\nconst base64String = webhookData.json.body.image;\nconst cleanBase64 = base64String.replace(/^data:image\/\w+;base64,/, "");\nconst mimeType = webhookData.json.body.mime || 'image/jpeg';\nconst incomingJson = $input.first().json;\nreturn [{\n    json: incomingJson,\n    binary: {\n        data: {\n            data: cleanBase64,\n            mimeType: mimeType,\n            fileName: 'insight.jpg'\n        }\n    }\n}];"
+},
+"id": "insert yo id",
+"name": "Prepare Image Binary",
+"type": "n8n-nodes-base.code",
+"typeVersion": 2,
+"position": [0, 416]
+},
+{
+"parameters": {
+"method": "POST",
+"url": "https://api.buffer.com",
+"sendHeaders": true,
+"headerParameters": {
+"parameters": [
+{
+"name": "Authorization",
+"value": "Bearer insert yo key"
+},
+{
+"name": "Content-Type",
+"value": "application/json"
+}
+]
+},
+"sendBody": true,
+"contentType": "raw",
+"rawContentType": "application/json",
+"body": "={"query":"mutation { createPost(input: { channelId: \"insert yo id\", text: \"{{ $json.postContentEscaped }}\", assets: [{ image: { url: \"{{ $json.secure_url }}\" } }], schedulingType: automatic, mode: customScheduled, dueAt: \"{{ $json.dueAt }}\" }) { ... on PostActionSuccess { post { id } } ... on MutationError { message } } }"}",
+"options": {}
+},
+"type": "n8n-nodes-base.httpRequest",
+"typeVersion": 4.4,
+"position": [608, 416],
+"id": "insert yo id",
+"name": "Buffer Company Post"
+},
+{
+"parameters": {
+"method": "POST",
+"url": "https://api.cloudinary.com/v1_1/insert yo id/image/upload",
+"sendBody": true,
+"contentType": "multipart-form-data",
+"bodyParameters": {
+"parameters": [
+{
+"parameterType": "formBinaryData",
+"name": "file",
+"inputDataFieldName": "data"
+},
+{
+"name": "upload_preset",
+"value": "insert yo id"
+}
+]
+},
+"options": {}
+},
+"type": "n8n-nodes-base.httpRequest",
+"typeVersion": 4.4,
+"position": [224, 416],
+"id": "insert yo id",
+"name": "Cloudinary"
+},
+{
+"parameters": {
+"assignments": {
+"assignments": [
+{
+"id": "insert yo id",
+"name": "dueAt",
+"value": "={{ new Date(Date.now() + 60000).toISOString() }}",
+"type": "string"
+},
+{
+"id": "insert yo id",
+"name": "secure_url",
+"value": "={{ $('Cloudinary').first().json.secure_url }}",
+"type": "string"
+},
+{
+"id": "insert yo id",
+"name": "postContentEscaped",
+"value": "={{ $('Webhook Approval').first().json.body.postContent.replace(/"/g, "'") }}",
+"type": "string"
+}
+]
+},
+"options": {}
+},
+"type": "n8n-nodes-base.set",
+"typeVersion": 3.4,
+"position": [432, 416],
+"id": "insert yo id",
+"name": "Set"
+}
+],
+"connections": {
+"Webhook (Process)": { "main": [[{ "node": "OCR", "type": "main", "index": 0 }]] },
+"Google Gemini": { "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]] },
+"AI Agent": { "main": [[{ "node": "Parse Output", "type": "main", "index": 0 }]] },
+"Webhook (UI)": { "main": [[{ "node": "Respond to Webhook (UI)", "type": "main", "index": 0 }]] },
+"Parse Output": { "main": [[{ "node": "Return JSON", "type": "main", "index": 0 }]] },
+"OCR": { "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]] },
+"Webhook Approval": { "main": [[{ "node": "Prepare Image Binary", "type": "main", "index": 0 }]] },
+"Prepare Image Binary": { "main": [[{ "node": "Cloudinary", "type": "main", "index": 0 }]] },
+"Buffer Company Post": { "main": [[{ "node": "Respond Success", "type": "main", "index": 0 }]] },
+"Cloudinary": { "main": [[{ "node": "Set", "type": "main", "index": 0 }]] },
+"Set": { "main": [[{ "node": "Buffer Company Post", "type": "main", "index": 0 }]] }
+},
+"pinData": {
+"Webhook Approval": [
+{
+"headers": {
+"host": "insert yo id",
+"connection": "keep-alive",
+"content-length": "455784",
+"sec-ch-ua-platform": ""Windows"",
+"user-agent": "Mozilla/5.0",
+"content-type": "application/json",
+"accept": "/*"
+},
+"params": {},
+"query": {},
+"body": { "choose yo own variables": "insert yo id" },
+"webhookUrl": "insert yo id",
+"executionMode": "production"
+}
+]
+},
+"meta": {
+"templateCredsSetupCompleted": true,
+"instanceId": "insert yo id"
+}
+}
